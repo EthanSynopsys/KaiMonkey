@@ -1,20 +1,16 @@
-
 on: [push]
   
 jobs:
   sigma_code_scanning_run_steps:
     runs-on: ubuntu-latest
     container:
-      image: docker.io/sigsynopsys/sigma-release-image:latest
-      credentials:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      image: dtpoirot/sigma
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
-  
-      - name: SIGMA analysis
-        run: sigma analyze --format sarif .
+      
+      - name: Sigma analysis
+        run: sigma analyze --format github .
   
       - name: Upload SARIF file
         uses: github/codeql-action/upload-sarif@v1
